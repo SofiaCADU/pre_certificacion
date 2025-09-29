@@ -1,0 +1,54 @@
+<!-- /base/templates/calendario.html -->
+
+{% extends 'base.html' %}
+{% block title %} Calendario de {{ user.nombre }}{% endblock %}
+
+{% block content %}
+
+    <div>
+        <h1>Perfil de {{ user.nombre }} {{ user.apellido }}</h1>
+        <a href="/viajes" class="btn btn-secondary"> Ir al dashboard</a>
+    </div>
+
+    {% with messages = get_flashed_messages(category_filter=['exito', 'error']) %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <hr>
+
+    <h2>Mis viajes creados ({{ viajes|length }} en total)</h2>
+    <hr>
+    
+    {% if viajes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Destino</th>
+                    <th>Descripcion</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for viaje in viajes %}
+                <tr>
+                    <td>{{ viaje.destino }}</td>
+                    <td>{{ viaje.descripcion }}</td>
+                    <td>{{ viaje.fecha_inicio | format_date }}</td>
+                    <td>{{ viaje.fecha_fin | format_date }}</td>
+                    <td>
+                        <a href="/viajes/editar/{{ viaje.id }}" class="btn">Editar</a>
+                        <a href="/viajes/borrar/{{ viaje.id }}" onclick="return confirm('¿Estás seguro de que quieres borrar este viaje?')" class="btn">Borrar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aún no has creado ningun vaije. ¡Empieza a planear uno!</p>
+    {% endif %}
+{% endblock %}

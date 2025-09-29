@@ -1,0 +1,62 @@
+/* styles.css - Estilos personalizados para Citas Famosas */
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+h1 {
+    color: midnightblue;
+}
+
+h2, h3 {
+    color: #111;
+}
+
+.card {
+    background-color: #dfefff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: none;
+}
+
+.btn {
+    margin-right: 5px;
+    transition: backgroud-color 0.2s;
+}
+
+ul {
+    padding-left: 1.2rem;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+table thead th {
+    background-color: #353f49;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+table tbody td {
+    border: 1px solid #dee2e6;
+    padding: 10px 15px;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+footer {
+    background: #212529;
+    color: #fff;
+}
+

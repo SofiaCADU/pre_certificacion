@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Editar viaje a {{ viaje.destino }}{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Editar viaje: {{ viaje.destino }}</h1>
+        <a href="/viajes" class="btn">Cancelar y volver</a>
+    </div>
+
+    <div class="card">
+        <h2>Actualizar detalles</h2>
+        <hr>
+
+        {% with messages = get_flashed_messages(category_filter=['viaje']) %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/viajes/procesar_editar" method="post">
+
+            <input type="hidden" name="id" value="{{ viaje.id }}">
+
+            <div class="row">
+                <div>
+                    <label for="destino">Destino:</label>
+                    <input type="text" name="destino" value="{{ viaje.destino }} required">
+                </div>
+                <div>
+                    <label for="fecha_inicio">Fecha de inicio:</label>
+                    <input type="date" name="fecha_inicio" value="{{ viaje.fecha_inicio_str }}" required>
+                </div>
+                <div>
+                    <label for="fecha_fin">Fecha de termino:</label>
+                    <input type="date" name="fecha_fin" value="{{ viaje.fecha_fin_str }}" required>
+                </div>
+            </div>
+
+            <div>
+                <label for="descripcion">Descripcion del viaje:</label>
+                <textarea name="descripcion" rows="4" required>{{ viaje.descripcion }}</textarea>
+            </div>
+
+            <button type="submit" class="btn">Guardar cambios</button>
+
+            <a href="/viajes/borrar/{{ viajes.id }}" onclick="return confirm('¿Estas seguro de que quieres borrar este viaje? Esta accion es irreversible.')" class="btn">Borrar viaje</a>
+        </form>
+    </div>
+
+    {% endblock %}

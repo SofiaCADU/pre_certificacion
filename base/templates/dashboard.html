@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block tittle %}Panel de viajes{% endblock %}
+
+{% block content %}
+    <div>
+        <h1>Bienvenido, {{ user.nombre }}{{ user.apellido }}</h1>
+        <a href="/viajes/calendario" class="btn">Ver mi calendario de viajes</a>
+    </div>
+
+    <div class="card">
+        <h2>Planificar un nuevo viaje</h2>
+
+        {% with messages = get_flashed_messages(category_filter=['viaje']) %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/viajes/procesar_creacion" method="post">
+
+            <div class="row">
+                <div>
+                    <label for="destino">Destino:</label>
+                    <input type="text" name="destino" required>
+                </div>
+                <div>
+                    <label for="fecha_inicio">Fecha de inicio:</label>
+                    <input type="date" name="fecha_inicio" required>
+                </div>
+                <div>
+                    <label for="fecha_fin">Fecha de termino:</label>
+                    <input type="date" name="fecha_fin" required>
+                </div>
+            </div>
+            <div>
+                <label for="descripcion">Descripcion del viaje:</label>
+                <textarea name="descripcion" rows="3" required></textarea> <!-- Sirve para que el usuario puedan ingresar un texto multimedia -->
+            </div>
+        </form>
+    </div>
+
+    <h2>Todos los viajes en la plataforma</h2>
+    <hr>
+
+    {% if viajes %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Destino</th>
+                    <th>Descripcion</th>
+                    <th>Inicio</th>
+                    <th>Fin</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for viaje in viajes %}
+                <tr>
+                    <td>{{ viaje.destino }}</td>
+                    <td>{{ viaje.descripcion }}</td>
+                    <td>{{ viaje.fecha_inicio | format_date }} <br> al {{ viaje.fecha_fin | format_date }}</td>
+                    <td>{{ viaje.auto.nombre }} {{ viaje.auto.apellido }}</td>
+                    <td>
+                        {% if viaje.autor_id == session['user_id'] %}
+                            <a href="/viajes/editar/{{ viaje.id }}" class="btn">Editar</a>
+                            <a href="/viajes/borrar/{{ viaje.id }}" onclick="return confirm('¿Estás seguro de que quieres borrar este viaje?')" class="btn">Borrar</a>
+                        {% else %}
+                        <span>No tienes permiso</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert" role="alert">
+            Aún no hay viajes registrados. ¡Se el primero en planear un viaje divertido!
+        </div>
+    {% endif %}
+{% endblock %}
